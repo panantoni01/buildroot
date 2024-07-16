@@ -1,0 +1,9 @@
+config BR2_PACKAGE_UTILS_RASPBERRYPI
+	bool "utils_raspberrypi"
+	depends on BR2_PACKAGE_DTC
+	help
+	  raspberrypi utils is a collection of simple scripts and
+	  applications to use on the Raspberry Pi platform (e.g.
+	  dtoverlay, dtmerge, pinctrl)
+
+	  http://github.com/raspberrypi/utils
