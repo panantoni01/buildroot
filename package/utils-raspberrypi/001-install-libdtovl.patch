@@ -1,0 +1,27 @@
+From f9f8fd98a240e3bf10e75a21f28a507256e21104 Mon Sep 17 00:00:00 2001
+From: Antoni Pokusinski <apokusinski@o2.pl>
+Date: Tue, 16 Jul 2024 15:06:11 +0200
+Subject: [PATCH] dtmerge: install libdtovl
+
+Without the libdtovl.so it is impossible to use the dtoverlay/dtmerge
+tools, since they require the shared library. This patch installs the
+library to the target, therefore fixing the issue.
+---
+ dtmerge/CMakeLists.txt | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/dtmerge/CMakeLists.txt b/dtmerge/CMakeLists.txt
+index f63648b..51d880e 100644
+--- a/dtmerge/CMakeLists.txt
++++ b/dtmerge/CMakeLists.txt
+@@ -13,6 +13,7 @@ endif ()
+ 
+ add_library (dtovl ${STATIC} dtoverlay.c)
+ target_link_libraries(dtovl fdt)
++install(TARGETS dtovl DESTINATION ${CMAKE_INSTALL_LIBDIR})
+ 
+ add_executable(dtmerge dtmerge.c)
+ target_link_libraries(dtmerge dtovl)
+-- 
+2.25.1
+
