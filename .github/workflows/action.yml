@@ -1,0 +1,22 @@
+name: RPi Buildroot image
+
+on:
+  push:
+    branches: [ master, escape ]
+
+jobs:
+  build:
+    name: "Build SD card image"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - run: |
+          make escape_rpi3_defconfig
+          make -j$(nproc)
+      - uses: actions/upload-artifact@v4
+        with:
+          name: sdcard.img
+          path: |
+            output/images/sdcard.img
+            output/images/boot.vfat
+            output/images/rootfs.ext2
