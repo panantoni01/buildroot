@@ -16,4 +16,7 @@ jobs:
       - uses: actions/upload-artifact@v3
         with:
           name: sdcard.img
-          path: output/images/sdcard.img
+          path: |
+            output/images/sdcard.img
+            output/images/boot.vfat
+            output/images/rootfs.ext2
