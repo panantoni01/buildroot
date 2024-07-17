@@ -202,6 +202,14 @@ LINUX_DTS_NAME += $(basename $(filter %.dts,$(notdir $(call qstrip,$(BR2_LINUX_K
 
 LINUX_DTBS = $(addsuffix .dtb,$(LINUX_DTS_NAME))
 
+ifeq ($(BR2_LINUX_KERNEL_DTB_OVERLAY_SUPPORT),y)
+LINUX_DTS_OVERLAY_NAMES += $(call qstrip,$(BR2_LINUX_KERNEL_INTREE_DTS_OVERLAY_NAMES))
+
+LINUX_DTS_OVERLAY_NAMES += $(basename $(filter %-overlay.dts,$(notdir $(call qstrip,$(BR2_LINUX_KERNEL_CUSTOM_DTS_OVERLAY_PATH)))))
+
+LINUX_DTBOS = $(addsuffix .dtbo,$(LINUX_DTS_OVERLAY_NAMES))
+endif
+
 ifeq ($(BR2_LINUX_KERNEL_IMAGE_TARGET_CUSTOM),y)
 LINUX_IMAGE_NAME = $(call qstrip,$(BR2_LINUX_KERNEL_IMAGE_NAME))
 LINUX_TARGET_NAME = $(call qstrip,$(BR2_LINUX_KERNEL_IMAGE_TARGET_NAME))
@@ -462,9 +470,22 @@ define LINUX_INSTALL_DTB
 			$(1)/$(if $(BR2_LINUX_KERNEL_DTB_KEEP_DIRNAME),$(dtb),$(notdir $(dtb)))
 	)
 endef
+define LINUX_INSTALL_DTBO
+	$(foreach dtbo,$(LINUX_DTBOS), \
+		install -D \
+			$(wildcard $(LINUX_ARCH_PATH)/boot/dts/$(dtbo)) \
+			$(1)/$(if $(BR2_LINUX_KERNEL_DTBO_KEEP_DIRNAME),$(dtbo),$(notdir $(dtbo)))
+	)
+endef
 endif # BR2_LINUX_KERNEL_APPENDED_DTB
 endif # BR2_LINUX_KERNEL_DTB_IS_SELF_BUILT
 endif # BR2_LINUX_KERNEL_DTS_SUPPORT
+
+ifeq ($(BR2_LINUX_KERNEL_DTS_OVERLAY_SUPPORT),y)
+define LINUX_BUILD_DTBO
+	$(LINUX_MAKE_ENV) $(BR2_MAKE) $(LINUX_MAKE_FLAGS) -C $(@D) $(LINUX_DTBOS)
+endef
+endif # BR2_LINUX_KERNEL_DTS_OVERLAY_SUPPORT
 
 ifeq ($(BR2_LINUX_KERNEL_APPENDED_DTB),y)
 # dtbs moved from arch/$ARCH/boot to arch/$ARCH/boot/dts since 3.8-rc1
@@ -512,6 +533,7 @@ define LINUX_BUILD_CMDS
 	$(LINUX_MAKE_ENV) $(BR2_MAKE) $(LINUX_MAKE_FLAGS) -C $(@D) $(LINUX_TARGET_NAME)
 	$(LINUX_BUILD_DTB)
 	$(LINUX_APPEND_DTB)
+	$(LINUX_BUILD_DTBO)
 endef
 
 ifeq ($(BR2_LINUX_KERNEL_APPENDED_DTB),y)
@@ -533,6 +555,7 @@ ifeq ($(BR2_LINUX_KERNEL_INSTALL_TARGET),y)
 define LINUX_INSTALL_KERNEL_IMAGE_TO_TARGET
 	$(call LINUX_INSTALL_IMAGE,$(TARGET_DIR)/boot)
 	$(call LINUX_INSTALL_DTB,$(TARGET_DIR)/boot)
+	$(call LINUX_INSTALL_DTBO,$(TARGET_DIR)/boot/overlays)
 endef
 endif
 
@@ -547,6 +570,7 @@ endef
 define LINUX_INSTALL_IMAGES_CMDS
 	$(call LINUX_INSTALL_IMAGE,$(BINARIES_DIR))
 	$(call LINUX_INSTALL_DTB,$(BINARIES_DIR))
+	$(call LINUX_INSTALL_DTBO,$(BINARIES_DIR))
 endef
 
 ifeq ($(BR2_STRIP_strip),y)
