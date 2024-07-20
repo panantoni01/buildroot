@@ -55,6 +55,7 @@ BR2_SYSTEM_BIN_SH="bash"
 # For dtoverlay
 BR2_PACKAGE_UTILS_RASPBERRYPI=y
 BR2_PACKAGE_DTC=y
+BR2_PACKAGE_DTC_PROGRAMS=y
 BR2_PACKAGE_LIBFTDI=y
 
 # Wpa supplicant (may be useful...)
