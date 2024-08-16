@@ -440,6 +440,29 @@ config BR2_LINUX_KERNEL_DTB_OVERLAY_SUPPORT
 	  Choose this option to support Device Tree overlays
 	  on the target system.
 
+config BR2_LINUX_KERNEL_INTREE_DTS_OVERLAY_NAMES
+	string "In-tree Device Tree Source Overlay file names"
+	depends on BR2_LINUX_KERNEL_DTB_OVERLAY_SUPPORT
+	help
+	  Name of in-tree device tree source file, without
+	  the trailing -overlay.dts. You can provide a list of
+	  dts files to build, separated by spaces.
+
+config BR2_LINUX_KERNEL_CUSTOM_DTS_OVERLAY_PATH
+	string "Out-of-tree Device Tree Source Overlay file paths"
+	help
+	  Paths to out-of-tree Device Tree Source Overlay (-overlay.dts)
+	  and Device Tree Source Include (.dtsi) files, separated by
+	  spaces. These files will be copied to the kernel sources and
+	  the .dts files will be compiled from there.
+
+config BR2_LINUX_KERNEL_DTBO_KEEP_DIRNAME
+	bool "Keep the directory name of the Device Tree Overlay"
+	help
+	  If enabled, the device tree blob overlays keep their
+	  directory prefixes when they get copied to the
+	  output image directory or the target directory.
+
 endif
 
 config BR2_LINUX_KERNEL_INSTALL_TARGET
