@@ -12,7 +12,7 @@ if [ ! -e "${GENIMAGE_CFG}" ]; then
 	GENIMAGE_CFG="${BINARIES_DIR}/genimage.cfg"
 	FILES=()
 
-	for i in "${BINARIES_DIR}"/*.dtb "${BINARIES_DIR}"/rpi-firmware/*; do
+	for i in "${BINARIES_DIR}"/{overlays,*.dtb} "${BINARIES_DIR}"/rpi-firmware/*; do
 		FILES+=( "${i#${BINARIES_DIR}/}" )
 	done
 
