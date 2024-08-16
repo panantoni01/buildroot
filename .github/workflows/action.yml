@@ -2,7 +2,7 @@ name: RPi Buildroot image
 
 on:
   push:
-    branches: [ master ]
+    branches: [ master, si7210 ]
 
 jobs:
   build:
