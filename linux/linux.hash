@@ -1,6 +1,7 @@
 # My hashes of https://github.com/panantoni01/linux.git
 sha256  e84c52b1107723a5e067c88af2674df16fc83d5261feafde4ff62724bfb15e9d  linux-rpi-6.1.y-git4.tar.gz
 sha256  260fb19d06c0cfbd8c2b2f4fd5dda64c9370a68a9f7d8b16d0477f37bfa7fc00  linux-rpi-6.6.y-git4.tar.gz
+sha256  2470aa0774c863f158fa630caf5ea66e499d2bd11267946b4e18783a1e14f213  linux-tmp006-on-6.6.y-git4.tar.gz
 
 # From https://www.kernel.org/pub/linux/kernel/v6.x/sha256sums.asc
 sha256  fa5f22fd67dd05812d39dca579320c493048e26c4a556048a12385e7ae6fc698  linux-6.10.3.tar.xz
