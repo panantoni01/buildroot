@@ -162,7 +162,9 @@ HOST_NCURSES_CONF_OPTS = \
 	--without-ada \
 	--with-default-terminfo-dir=/usr/share/terminfo \
 	--disable-db-install \
-	--without-normal
+	--without-normal \
+	--with-termlib \
+	--disable-widec
 
 $(eval $(autotools-package))
 $(eval $(host-autotools-package))
